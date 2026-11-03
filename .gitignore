@@ -1,0 +1,11 @@
+.DS_Store
+/node_modules/
+
+# React Router
+/.react-router/
+/build/
+.env.*
+.env
+
+# ...but the template of required variables is meant to be committed
+!.env.example

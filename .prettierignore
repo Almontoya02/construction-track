@@ -1,0 +1,8 @@
+node_modules
+build
+.react-router
+
+# Prettier has no parser for dotenv files and exits non-zero when asked
+.env
+.env.*
+pnpm-lock.yaml

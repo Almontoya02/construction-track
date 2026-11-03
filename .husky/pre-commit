@@ -1,0 +1,3 @@
+pnpx lint-staged
+pnpm typecheck
+pnpm test:ci
