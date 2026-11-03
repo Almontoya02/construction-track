@@ -72,7 +72,7 @@ export function AlertsSheet({
         side="right"
         className="w-[92vw] gap-0 bg-card p-0 sm:max-w-md"
       >
-        <SheetHeader className="border-b border-muted px-5 py-4">
+        <SheetHeader className="border-b border-muted px-5 pt-[calc(1rem+var(--safe-top))] pb-4">
           <SheetTitle className="font-display text-2xl font-normal">
             Por vencer
           </SheetTitle>
@@ -80,7 +80,7 @@ export function AlertsSheet({
             Vencidas y lo que vence en los próximos 3 días.
           </SheetDescription>
         </SheetHeader>
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto pb-(--safe-bottom)">
           <AlertList
             alerts={alerts}
             onPick={(a) => {
