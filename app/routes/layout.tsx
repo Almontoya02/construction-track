@@ -8,6 +8,12 @@ import {
   TriangleAlert,
 } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ObrasProvider, useObras } from "@/contexts/obras-context";
 import { HardHatIcon, Dot } from "@/components/obra/bits";
@@ -42,14 +48,9 @@ function Shell() {
   const { projectId } = useParams();
   const { openNew } = useTaskDialog();
   const [alertsOpen, setAlertsOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const alerts = useMemo(() => alertsFor(data, today), [data, today]);
   const project = data.projects.find((p) => p.id === projectId);
-
-  const navItem = ({ isActive }: { isActive: boolean }) =>
-    cn(
-      "flex min-h-11 w-full items-center gap-3 rounded-xl px-3 text-left text-[15px] text-[#D6D3CB] hover:bg-ink-2",
-      isActive && "bg-ink-3 font-semibold text-white",
-    );
 
   return (
     <div className="flex min-h-dvh flex-wrap content-start md:content-stretch">
@@ -59,81 +60,51 @@ function Shell() {
         aria-hidden="true"
         className="fixed inset-x-0 top-0 z-30 h-(--safe-top) bg-ink"
       />
-      <aside className="flex flex-[1_1_100%] flex-wrap items-center gap-2 bg-ink px-4 pt-[calc(0.625rem+var(--safe-top))] pb-2.5 text-[#EDEAE3] md:max-w-66 md:flex-[1_1_240px] md:flex-col md:flex-nowrap md:items-stretch md:gap-7 md:px-3.5 md:pt-[calc(1.5rem+var(--safe-top))] md:pb-[calc(1.5rem+var(--safe-bottom))]">
-        <Link to="/" className="flex items-center gap-3 px-1.5">
-          <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-clay text-white md:size-[42px]">
-            <HardHatIcon className="size-5 md:size-[22px]" />
-          </span>
-          <span>
-            <span className="block font-display text-xl leading-none text-white md:text-[22px]">
-              Obra Clara
-            </span>
-            <span className="mt-1 hidden text-[10px] tracking-[0.18em] text-ink-muted uppercase md:block">
-              Control de obra
-            </span>
-          </span>
-        </Link>
-
-        <nav
-          aria-label="Principal"
-          className="ml-auto flex gap-1 md:ml-0 md:flex-col"
+      <aside className="flex flex-[1_1_100%] items-center gap-2 bg-ink px-4 pt-[calc(0.625rem+var(--safe-top))] pb-2.5 text-[#EDEAE3] md:max-w-66 md:flex-[1_1_240px] md:flex-col md:items-stretch md:gap-7 md:px-3.5 md:pt-[calc(1.5rem+var(--safe-top))] md:pb-[calc(1.5rem+var(--safe-bottom))]">
+        <Brand />
+        {/* Phone: the grid button opens the full menu in a drawer. */}
+        <button
+          type="button"
+          onClick={() => setMenuOpen(true)}
+          aria-label="Abrir menú"
+          aria-expanded={menuOpen}
+          className="relative ml-auto grid size-11 place-items-center rounded-xl bg-ink-3 text-white md:hidden"
         >
-          <NavLink to="/" end className={navItem}>
-            <LayoutGrid className="size-5" aria-hidden="true" />
-            <span className="hidden md:inline">Mis obras</span>
-            <span className="sr-only md:hidden">Mis obras</span>
-          </NavLink>
-          <button
-            type="button"
-            className={navItem({ isActive: false })}
-            onClick={() => setAlertsOpen(true)}
-          >
-            <TriangleAlert className="size-5" aria-hidden="true" />
-            <span className="hidden md:inline">Por vencer</span>
-            <span className="sr-only md:hidden">Por vencer</span>
-            {alerts.length > 0 && (
-              <span className="ml-auto grid h-[22px] min-w-[22px] place-items-center rounded-full bg-clay px-1.5 text-xs font-bold text-white">
-                {alerts.length}
-              </span>
-            )}
-          </button>
-        </nav>
-
-        <div className="hidden md:block">
-          <p className="mb-1.5 px-3 text-[11px] tracking-[0.14em] text-ink-muted uppercase">
-            Obras
-          </p>
-          {data.projects.map((p) => (
-            <NavLink
-              key={p.id}
-              to={`/obras/${p.id}`}
-              className={({ isActive }) =>
-                cn(
-                  "flex min-h-11 items-center gap-2.5 rounded-xl px-3 text-sm text-[#D6D3CB] hover:bg-ink-2",
-                  isActive && "bg-ink-3 text-white",
-                )
-              }
-            >
-              <Dot color={p.color} />
-              <span className="truncate">{p.name}</span>
-            </NavLink>
-          ))}
-        </div>
-
-        <div className="mt-auto hidden items-center gap-3 border-t border-ink-3 px-2 pt-4 md:flex">
-          <span className="grid size-9 place-items-center rounded-full bg-[#E8C9A8] text-[13px] font-bold text-[#5A3517]">
-            RO
-          </span>
-          <span>
-            <span className="block text-sm font-semibold text-white">
-              Mi tablero
+          <LayoutGrid className="size-5" aria-hidden="true" />
+          {alerts.length > 0 && (
+            <span className="absolute -top-1 -right-1 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-clay px-1 text-[11px] font-bold text-white">
+              {alerts.length}
             </span>
-            <span className="block text-xs text-ink-muted">
-              Residente de obra
-            </span>
-          </span>
+          )}
+        </button>
+        <div className="hidden flex-1 flex-col gap-7 md:flex">
+          <SideMenu
+            alertCount={alerts.length}
+            onAlerts={() => setAlertsOpen(true)}
+          />
         </div>
       </aside>
+
+      <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+        <SheetContent
+          side="left"
+          className="w-[82vw] max-w-80 gap-7 border-ink-3 bg-ink px-3.5 pt-[calc(1.5rem+var(--safe-top))] pb-[calc(1.5rem+var(--safe-bottom))] text-[#EDEAE3] [&>button:last-child]:text-white"
+        >
+          <SheetTitle className="sr-only">Menú</SheetTitle>
+          <SheetDescription className="sr-only">
+            Navega entre tus obras y los avisos de vencimiento.
+          </SheetDescription>
+          <Brand />
+          <SideMenu
+            alertCount={alerts.length}
+            onAlerts={() => {
+              setMenuOpen(false);
+              setAlertsOpen(true);
+            }}
+            onNavigate={() => setMenuOpen(false)}
+          />
+        </SheetContent>
+      </Sheet>
 
       <div className="flex min-w-0 flex-[999_1_560px] flex-col md:pt-(--safe-top)">
         <header className="sticky top-(--safe-top) z-20 flex items-center gap-3 border-b border-border bg-ground px-4 py-2.5 md:px-8 md:py-3.5">
@@ -195,5 +166,104 @@ function Shell() {
         alerts={alerts}
       />
     </div>
+  );
+}
+
+function Brand() {
+  return (
+    <Link to="/" className="flex items-center gap-3 px-1.5">
+      <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-clay text-white md:size-[42px]">
+        <HardHatIcon className="size-5 md:size-[22px]" />
+      </span>
+      <span>
+        <span className="block font-display text-xl leading-none text-white md:text-[22px]">
+          Obra Clara
+        </span>
+        <span className="mt-1 hidden text-[10px] tracking-[0.18em] text-ink-muted uppercase md:block">
+          Control de obra
+        </span>
+      </span>
+    </Link>
+  );
+}
+
+const navItem = ({ isActive }: { isActive: boolean }) =>
+  cn(
+    "flex min-h-11 w-full items-center gap-3 rounded-xl px-3 text-left text-[15px] text-[#D6D3CB] hover:bg-ink-2",
+    isActive && "bg-ink-3 font-semibold text-white",
+  );
+
+/** Navigation, project list and profile: the desktop sidebar and the phone drawer. */
+function SideMenu({
+  alertCount,
+  onAlerts,
+  onNavigate,
+}: {
+  alertCount: number;
+  onAlerts: () => void;
+  onNavigate?: () => void;
+}) {
+  const { data } = useObras();
+  return (
+    <>
+      <nav aria-label="Principal" className="flex flex-col gap-1">
+        <NavLink to="/" end className={navItem} onClick={onNavigate}>
+          <LayoutGrid className="size-5" aria-hidden="true" />
+          Mis obras
+        </NavLink>
+        <button
+          type="button"
+          className={navItem({ isActive: false })}
+          onClick={onAlerts}
+        >
+          <TriangleAlert className="size-5" aria-hidden="true" />
+          Por vencer
+          {alertCount > 0 && (
+            <span className="ml-auto grid h-[22px] min-w-[22px] place-items-center rounded-full bg-clay px-1.5 text-xs font-bold text-white">
+              {alertCount}
+            </span>
+          )}
+        </button>
+      </nav>
+
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <p className="mb-1.5 px-3 text-[11px] tracking-[0.14em] text-ink-muted uppercase">
+          Obras
+        </p>
+        {data.projects.length === 0 && (
+          <p className="px-3 text-sm text-ink-muted">Aún no tienes obras.</p>
+        )}
+        {data.projects.map((p) => (
+          <NavLink
+            key={p.id}
+            to={`/obras/${p.id}`}
+            onClick={onNavigate}
+            className={({ isActive }) =>
+              cn(
+                "flex min-h-11 items-center gap-2.5 rounded-xl px-3 text-sm text-[#D6D3CB] hover:bg-ink-2",
+                isActive && "bg-ink-3 text-white",
+              )
+            }
+          >
+            <Dot color={p.color} />
+            <span className="truncate">{p.name}</span>
+          </NavLink>
+        ))}
+      </div>
+
+      <div className="flex items-center gap-3 border-t border-ink-3 px-2 pt-4">
+        <span className="grid size-9 place-items-center rounded-full bg-[#E8C9A8] text-[13px] font-bold text-[#5A3517]">
+          RO
+        </span>
+        <span>
+          <span className="block text-sm font-semibold text-white">
+            Mi tablero
+          </span>
+          <span className="block text-xs text-ink-muted">
+            Residente de obra
+          </span>
+        </span>
+      </div>
+    </>
   );
 }
