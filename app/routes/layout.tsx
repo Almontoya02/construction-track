@@ -28,7 +28,11 @@ export default function AppLayout() {
       <TaskDialogProvider>
         <Shell />
       </TaskDialogProvider>
-      <Toaster position="bottom-center" richColors />
+      <Toaster
+        position="bottom-center"
+        richColors
+        mobileOffset={{ bottom: "calc(16px + var(--safe-bottom))" }}
+      />
     </ObrasProvider>
   );
 }
@@ -49,7 +53,13 @@ function Shell() {
 
   return (
     <div className="flex min-h-dvh flex-wrap content-start md:content-stretch">
-      <aside className="flex flex-[1_1_100%] flex-wrap items-center gap-2 bg-ink px-4 py-2.5 text-[#EDEAE3] md:max-w-66 md:flex-[1_1_240px] md:flex-col md:flex-nowrap md:items-stretch md:gap-7 md:px-3.5 md:py-6">
+      {/* Solid strip behind the iPhone status bar, so scrolled content never
+          shows under the clock. Zero height where there is no inset. */}
+      <div
+        aria-hidden="true"
+        className="fixed inset-x-0 top-0 z-30 h-(--safe-top) bg-ink"
+      />
+      <aside className="flex flex-[1_1_100%] flex-wrap items-center gap-2 bg-ink px-4 pt-[calc(0.625rem+var(--safe-top))] pb-2.5 text-[#EDEAE3] md:max-w-66 md:flex-[1_1_240px] md:flex-col md:flex-nowrap md:items-stretch md:gap-7 md:px-3.5 md:pt-[calc(1.5rem+var(--safe-top))] md:pb-[calc(1.5rem+var(--safe-bottom))]">
         <Link to="/" className="flex items-center gap-3 px-1.5">
           <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-clay text-white md:size-[42px]">
             <HardHatIcon className="size-5 md:size-[22px]" />
@@ -125,8 +135,8 @@ function Shell() {
         </div>
       </aside>
 
-      <div className="flex min-w-0 flex-[999_1_560px] flex-col">
-        <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-border bg-ground px-4 py-2.5 md:px-8 md:py-3.5">
+      <div className="flex min-w-0 flex-[999_1_560px] flex-col md:pt-(--safe-top)">
+        <header className="sticky top-(--safe-top) z-20 flex items-center gap-3 border-b border-border bg-ground px-4 py-2.5 md:px-8 md:py-3.5">
           <div className="mr-auto flex min-w-0 items-center gap-2 text-[15px] text-muted-foreground">
             {project ? (
               <>
@@ -174,7 +184,7 @@ function Shell() {
           </Button>
         </header>
 
-        <main className="flex w-full max-w-[1400px] flex-col gap-6 px-4 pt-5 pb-14 md:gap-8 md:px-8 md:pt-7 md:pb-18">
+        <main className="flex w-full max-w-[1400px] flex-col gap-6 px-4 pt-5 pb-[calc(3.5rem+var(--safe-bottom))] md:gap-8 md:px-8 md:pt-7 md:pb-[calc(4.5rem+var(--safe-bottom))]">
           <Outlet />
         </main>
       </div>

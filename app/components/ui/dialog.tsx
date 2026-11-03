@@ -32,8 +32,8 @@ function DialogContent({
         data-slot="dialog-content"
         className={cn(
           "bg-card data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed z-50 flex flex-col gap-4 overflow-y-auto p-6 shadow-2xl outline-none",
-          "inset-x-0 bottom-0 max-h-[92dvh] rounded-t-3xl data-[state=open]:slide-in-from-bottom",
-          "sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:max-w-lg sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-3xl sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
+          "inset-x-0 bottom-0 max-h-[calc(92dvh-var(--safe-top))] rounded-t-3xl pb-[calc(1.5rem+var(--safe-bottom))] data-[state=open]:slide-in-from-bottom",
+          "sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:max-w-lg sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-3xl sm:pb-6 sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=open]:zoom-in-95",
           className,
         )}
         {...props}
