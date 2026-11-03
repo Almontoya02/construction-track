@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { db } from "../../server/supabase";
-import { fail, handle, json, readBody } from "../../server/http";
+import { db } from "../../server/supabase.js";
+import { fail, handle, json, readBody } from "../../server/http.js";
 
 const Subscription = z.object({
   endpoint: z.string().url(),

@@ -1,6 +1,13 @@
 import { z } from "zod";
-import { db } from "../server/supabase";
-import { dbFail, fail, handle, isoDate, json, readBody } from "../server/http";
+import { db } from "../server/supabase.js";
+import {
+  dbFail,
+  fail,
+  handle,
+  isoDate,
+  json,
+  readBody,
+} from "../server/http.js";
 
 const Status = z.enum(["pendiente", "proceso", "hecho"]);
 

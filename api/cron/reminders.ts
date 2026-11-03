@@ -1,5 +1,5 @@
-import { fail, handle, json } from "../../server/http";
-import { sendDailyReminders } from "../../server/reminders";
+import { fail, handle, json } from "../../server/http.js";
+import { sendDailyReminders } from "../../server/reminders.js";
 
 /**
  * Called by Vercel Cron every morning (see vercel.json). Vercel sends

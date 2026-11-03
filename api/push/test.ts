@@ -1,6 +1,6 @@
-import { handle, json } from "../../server/http";
-import { sendDailyReminders } from "../../server/reminders";
-import { sendToAll } from "../../server/push";
+import { handle, json } from "../../server/http.js";
+import { sendDailyReminders } from "../../server/reminders.js";
+import { sendToAll } from "../../server/push.js";
 
 /**
  * "Probar aviso" button: sends today's real digest right away, or a short

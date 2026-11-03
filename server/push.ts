@@ -1,5 +1,5 @@
 import webpush from "web-push";
-import { db } from "./supabase";
+import { db } from "./supabase.js";
 
 let configured = false;
 
@@ -11,6 +11,11 @@ function configure() {
   if (!publicKey || !privateKey) {
     throw new Error(
       "Faltan VITE_VAPID_PUBLIC_KEY o VAPID_PRIVATE_KEY. Genéralas con `pnpm vapid`.",
+    );
+  }
+  if (publicKey === privateKey) {
+    throw new Error(
+      "VAPID_PRIVATE_KEY es igual a la pública. Copia la «Private Key» (la más corta) que mostró `pnpm vapid`.",
     );
   }
   webpush.setVapidDetails(subject, publicKey, privateKey);

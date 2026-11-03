@@ -22,7 +22,9 @@ UI is in Spanish (Colombia); keep all user-facing copy in Spanish.
 ## Rules
 
 - `api/`, `server/` and `app/lib/due.ts` / `app/lib/types.ts` are bundled by
-  Vercel without the tsconfig alias: use **relative imports** there, never `@/`.
+  Vercel without the tsconfig alias: use **relative imports with a `.js`
+  extension** there (`../server/http.js`), never `@/`. Vercel runs them as
+  plain Node ES modules, which crash at load on extensionless imports.
 - Never expose `SUPABASE_SERVICE_ROLE_KEY` or `VAPID_PRIVATE_KEY` to the
   browser; only `VITE_`-prefixed variables reach the client.
 - Validate every API body with Zod (`server/http.ts` → `readBody`).
