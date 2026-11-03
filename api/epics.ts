@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { db } from "../server/supabase";
-import { dbFail, fail, handle, json, readBody } from "../server/http";
-import { EPIC_COLORS } from "../app/lib/types";
+import { db } from "../server/supabase.js";
+import { dbFail, fail, handle, json, readBody } from "../server/http.js";
+import { EPIC_COLORS } from "../app/lib/types.js";
 
 const NewEpic = z.object({
   id: z.string().uuid(),

@@ -1,5 +1,5 @@
-import { db } from "../server/supabase";
-import { handle, json, fail } from "../server/http";
+import { db } from "../server/supabase.js";
+import { handle, json, fail } from "../server/http.js";
 
 /** Everything the app shows, in one round trip. The data set is small. */
 export const GET = handle(async () => {

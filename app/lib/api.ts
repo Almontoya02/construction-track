@@ -40,7 +40,9 @@ async function request<T>(
   if (!response.ok) {
     throw new ApiError(
       (data as { error?: string }).error ??
-        `Error ${response.status} al hablar con el servidor.`,
+        (response.status >= 500
+          ? `El servidor falló (error ${response.status}). Revisa los logs de la función en Vercel.`
+          : `Error ${response.status} al hablar con el servidor.`),
       response.status,
     );
   }

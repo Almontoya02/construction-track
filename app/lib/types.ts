@@ -1,4 +1,4 @@
-import type { TaskStatus } from "./due";
+import type { TaskStatus } from "./due.js";
 
 export type { TaskStatus };
 

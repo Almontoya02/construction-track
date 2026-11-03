@@ -1,11 +1,11 @@
-import { db } from "./supabase";
-import { sendToAll } from "./push";
+import { db } from "./supabase.js";
+import { sendToAll } from "./push.js";
 import {
   buildReminderMessage,
   selectReminders,
   todayISO,
   type TaskStatus,
-} from "../app/lib/due";
+} from "../app/lib/due.js";
 
 /** Builds today's digest of due tasks and pushes it to every device. */
 export async function sendDailyReminders(today: string = todayISO()) {
